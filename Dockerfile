@@ -19,7 +19,8 @@ RUN apt update -y &&\
         curl \
         pkg-config \
         libstdc++6 \
-        libssl-dev
+        libssl-dev \
+        protobuf-compiler
 
 # get source code for rust-llvm, rust compiler and hikari OLLVM
 WORKDIR /repos
