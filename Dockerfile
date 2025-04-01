@@ -61,7 +61,7 @@ RUN cd build/ &&\
 
 
 
-FROM rust:1.70.0-bullseye as builder-rustc
+FROM rust:1.74.0-bullseye as builder-rustc
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Etc/UTC
@@ -89,11 +89,11 @@ COPY --from=builder-llvm /repos/llvm-16.0-2023-03-06/build/llvm_x64 /repos/llvm-
 # check if llvm was built
 RUN /repos/llvm-16.0-2023-03-06/build/bin/llvm-config --version
 
-RUN git clone --single-branch --branch 1.70.0 --depth 1 https://github.com/rust-lang/rust /repos/rust-1.70.0
+RUN git clone --single-branch --branch 1.74.0 --depth 1 https://github.com/rust-lang/rust /repos/rust-1.74.0
 
 # config rust compiler
 # https://rustc-dev-guide.rust-lang.org/building/new-target.html#using-pre-built-llvm
-WORKDIR /repos/rust-1.70.0/
+WORKDIR /repos/rust-1.74.0/
 RUN cp config.example.toml config.toml &&\
     sed -i 's/#debug = false/debug = false/' config.toml &&\
     sed -i 's/#channel = "dev"/channel = "nightly"/' config.toml &&\
@@ -117,8 +117,8 @@ RUN bash rustup.sh
 RUN rustup toolchain list --verbose
 
 # rustup link our custom OLLVM toolchain, make it default
-RUN rustup toolchain link ollvm-rust-1.70.0 /repos/rust-1.70.0/build/x86_64-unknown-linux-gnu/stage1/ &&\
-    rustup default ollvm-rust-1.70.0 
+RUN rustup toolchain link ollvm-rust-1.74.0 /repos/rust-1.74.0/build/x86_64-unknown-linux-gnu/stage1/ &&\
+    rustup default ollvm-rust-1.74.0 
 
 
 # Example compilation flags, use volumes to pass cargo packages into container
