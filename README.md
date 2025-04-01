@@ -7,14 +7,16 @@ Get the Docker image and run:
 
 
 ```bash
-docker pull ghcr.io/joaovarelas/obfuscator-llvm-16.0:latest
+git clone https://github.com/chainreactors/Obfuscator-LLVM-16.0.git
+cd Obfuscator-LLVM-16.0
+docker build -t image-name .
 docker run -v  /path/to/cargo/proj:/projects/ -it <image-id> /bin/bash
 
 # target windows
-cargo rustc --target x86_64-pc-windows-gnu --release -- -Cdebuginfo=0 -Cstrip=symbols -Cpanic=abort -Copt-level=3 -Cllvm-args=-enable-allobf
+cargo rustc --target x86_64-pc-windows-gnu  --release -p malefic --bin malefic -- -Cllvm-args=-enable-allobf
 
 # target linux
-cargo rustc --target x86_64-unknown-linux-gnu --release -- -Cdebuginfo=0 -Cstrip=symbols -Cpanic=abort -Copt-level=3 -Cllvm-args=-enable-allobf
+cargo rustc --target x86_64-unknown-linux-gnu --release -p malefic --bin malefic -- -Cllvm-args=-enable-allobf
 ```
 
 Compiled binaries will be placed at `./target` directory.
